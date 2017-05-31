@@ -1,17 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-"""
-ZetCode PyQt5 tutorial 
-
-In this example, we receive data from
-a QInputDialog dialog. 
-
-author: Jan Bodnar
-website: zetcode.com 
-last edited: January 2015
-"""
-
 import sys
 import random
 import math 
@@ -50,34 +39,58 @@ class CharacterData():
         
         #Actually just do a list of "statInfo"s that can be indexed into in each charStat
         self.stats = [
-            characterStats.statInfo("Strength", 10, False),
-            characterStats.statInfo("Dexterity", 10, False),
-            characterStats.statInfo("Constitution", 10, False),
-            characterStats.statInfo("Intelligence", 10, False),
-            characterStats.statInfo("Wisdom", 10, False),
-            characterStats.statInfo("Charisma", 10, False)
+            #characterStats.statInfo("Strength", 10, False),
+            #characterStats.statInfo("Dexterity", 10, False),
+            #characterStats.statInfo("Constitution", 10, False),
+            #characterStats.statInfo("Intelligence", 10, False),
+            #characterStats.statInfo("Wisdom", 10, False),
+            #characterStats.statInfo("Charisma", 10, False)
+            ["Strength", 10, False],
+            ["Dexterity", 10, False],
+            ["Constitution", 10, False],
+            ["Intelligence", 10, False],
+            ["Wisdom", 10, False],
+            ["Charisma", 10, False]
         ]
         #do the same with skills
         #self.skills = characterSkills.skillBlock()
         self.skills = [
-            characterSkills.skillInfo("Acrobatics", "Dexterity", False),
-            characterSkills.skillInfo("Animal Handling", "Wisdom", False),
-            characterSkills.skillInfo("Arcana", "Intelligence", False),
-            characterSkills.skillInfo("Athletics", "Strength", False),
-            characterSkills.skillInfo("Deception", "Charisma", False),
-            characterSkills.skillInfo("History", "Intelligence", False),
-            characterSkills.skillInfo("Insight", "Wisdom", False),
-            characterSkills.skillInfo("Intimidation", "Charisma", False),
-            characterSkills.skillInfo("Investigation", "Intelligence", False),
-            characterSkills.skillInfo("Medicine", "Wisdom", False),
-            characterSkills.skillInfo("Nature", "Intelligence", False),
-            characterSkills.skillInfo("Perception", "Wisdom", False),
-            characterSkills.skillInfo("Performance", "Charisma", False),
-            characterSkills.skillInfo("Persuasion", "Charisma", False),
-            characterSkills.skillInfo("Religion", "Intelligence", False),
-            characterSkills.skillInfo("Sleight of Hand", "Dexterity", False),
-            characterSkills.skillInfo("Stealth", "Dexterity", False),
-            characterSkills.skillInfo("Survival", "Wisdom", False)
+            #characterSkills.skillInfo("Acrobatics", 1, False),
+            #characterSkills.skillInfo("Animal Handling", 4, False),
+            #characterSkills.skillInfo("Arcana", 3, False),
+            #characterSkills.skillInfo("Athletics", 0, False),
+            #characterSkills.skillInfo("Deception", 5, False),
+            #characterSkills.skillInfo("History", 3, False),
+            #characterSkills.skillInfo("Insight", 4, False),
+            ##characterSkills.skillInfo("Intimidation", 5, False),
+            #characterSkills.skillInfo("Investigation", 3, False),
+            #characterSkills.skillInfo("Medicine", 4, False),
+            #characterSkills.skillInfo("Nature", 3, False),
+            #characterSkills.skillInfo("Perception", 4, False),
+            #characterSkills.skillInfo("Performance", 5, False),
+            #characterSkills.skillInfo("Persuasion", 5, False),
+            #characterSkills.skillInfo("Religion", 3, False),
+            #characterSkills.skillInfo("Sleight of Hand", 1, False),
+            #characterSkills.skillInfo("Stealth", 1, False),
+            #characterSkills.skillInfo("Survival", 4, False)
+            ["Acrobatics", 1, False],
+            ["Animal Handling", 4, False],
+            ["Arcana", 3, False],
+            ["Athletics", 0, False],
+            ["Deception", 5, False],
+            ["History", 3, False],
+            ["Insight", 4, False],
+            ["Intimidation", 5, False],
+            ["Investigation", 3, False],
+            ["Medicine", 4, False],
+            ["Nature", 3, False],
+            ["Perception", 4, False],
+            ["Performance", 5, False],
+            ["Persuasion", 5, False],
+            ["Religion", 3, False],
+            ["Sleight of Hand", 1, False],
+            ["Stealth", 1, False],
+            ["Survival", 4, False]
         ]
         
         #Just make feats a list of strings
@@ -133,16 +146,16 @@ class CharacterSheet(QWidget):
         self.initUI()
 
         if new:
-            self.data = characterData(fo)
+            self.data = characterData()
 
         else:
             self.data = pickle.load(fo)
         
     def initUI(self):      
-        self.Stats = StatsBlock(fo, self.data, self)
+        self.Stats = StatsBlock(self.data, self)
         self.Stats.move(30, 50) 
 
-        self.Skills = SkillsBlock(fo, self.data, self)
+        self.Skills = SkillsBlock(self.data, self)
         self.Skills.move(30, 275)
          
         self.size = QSize(1000, 1000)

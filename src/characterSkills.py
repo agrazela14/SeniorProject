@@ -11,32 +11,33 @@ from PyQt5.QtWidgets import (QWidget, QWidgetItem, QDialog, QPushButton, QLineEd
 from PyQt5.QtCore import (QSize)
 
 class CharacterSkill(QWidget):
-    def __init__(self, name, relevantStat, parent):
+    def __init__(self, info, relevantStat, prof, parent):
         super().__init__(parent)
         
         self.parent = parent     
         self.relevantStat = relevantStat
-        self.initUI(name, parent)
+        self.prof = prof
+        self.initUI()
+
+    def initUI(self):      
+
+        self.btn = QPushButton(self.info[0], self)
+        self.trainedCheck = QCheckBox('trained', self)
+
+        if (self.info[2]):
+            self.trainedCheck.setChecked()
+        self.btn.clicked.connect(self.rollDice)
 
     def rollDice(self):
         result = random.randint(1, 20)
-        modifiedResult = result + math.ceil((int(self.relevantStat.le.text()) - 11) / 2)
+        modifiedResult = result + math.ceil((int(self.relevantStat[1]) - 11) / 2)
 
         if (self.trainedCheck.isChecked()):
-            modifiedResult += 2
+            modifiedResult += self.prof
 
         output =  'Roll Result: ' + str(result) + '\n'
         output += 'Modified Result: ' + str(modifiedResult)
         QMessageBox.about(self, 'Roll Results', output)
-    
-    def initUI(self, name, parent):      
-
-        self.btn = QPushButton(name, self)
-        self.trainedCheck = QCheckBox('trained', self)
-        self.btn.clicked.connect(self.rollDice)
-
-        #self.trainedCheck.setMaximumSize(40, 40)
-        
         
     def move(self, btnx, btny):
         self.btn.move(btnx, btny)
@@ -52,12 +53,24 @@ class SkillsBlock(QWidget):
 
         self.parent = parent
         self.SkillList = [
-            CharacterSkill("Acrobatics (Dex)", parent.Stats.Dex, self),
-            CharacterSkill("Handle Animal (Wis)", parent.Stats.Wis, self),
-            CharacterSkill("Arcana (Int)", parent.Stats.Int, self),
-            CharacterSkill("Athletics (Str)", parent.Stats.Str, self),
-            CharacterSkill("Deception (Cha)", parent.Stats.Cha, self),
-            CharacterSkill("History (Int)", parent.Stats.Int, self),
+            CharacterSkill(data.skills[0], data.stats[data.skills[0, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[1], data.stats[data.skills[1, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[2], data.stats[data.skills[2, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[3], data.stats[data.skills[3, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[4], data.stats[data.skills[4, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[5], data.stats[data.skills[5, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[6], data.stats[data.skills[6, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[7], data.stats[data.skills[7, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[8], data.stats[data.skills[8, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[9], data.stats[data.skills[9, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[10], data.stats[data.skills[10, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[11], data.stats[data.skills[11, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[12], data.stats[data.skills[12, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[13], data.stats[data.skills[13, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[14], data.stats[data.skills[14, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[15], data.stats[data.skills[15, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[16], data.stats[data.skills[16, 1]], data.proficiency, self),
+            CharacterSkill(data.skills[17], data.stats[data.skills[17, 1]], data.proficiency, self),
         ]
         
     def move(self, xVal, yVal):

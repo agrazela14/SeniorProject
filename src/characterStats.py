@@ -8,15 +8,15 @@ from PyQt5.QtWidgets import (QWidget, QWidgetItem, QDialog, QPushButton, QLineEd
 from PyQt5.QtCore import (QSize)
 
 class CharacterStat(QWidget):
-    def __init__(self, name, parent):
+    def __init__(self, info, parent):
         super().__init__(parent.parent)
-        
         self.parent = parent     
-        self.initUI(name, parent)
+        self.info = info
+        self.initUI()
     
-    def initUI(self, name, fo, parent):      
+    def initUI(self):      
 
-        self.btn = QPushButton(name, self)
+        self.btn = QPushButton(self.info[0], self)
         self.btn.clicked.connect(self.rollDice)
 
         self.Inc = QPushButton("+", self)
@@ -28,22 +28,19 @@ class CharacterStat(QWidget):
         self.Dec.clicked.connect(self.Decrement)
 
         self.le = QLineEdit(self)
-        #TODO input vallidator for a numeric value only
-        #self.le.setInputMask('0')
-        self.le.setText("10")
+        self.le.setText(str(self.info[1]))
+
+        self.saveCheck = QCheckBox(self.info[0] + "save", self)
+        if (self.info[2]):
+            self.saveCheck.setChecked()
         
     def Increment(self):
         self.le.setText(str(int(self.le.text()) + 1))
-        self.fo = utils.setFo('Stats', self.name) 
-        self.fo.write(self.le.text())
 
     def Decrement(self):
         self.le.setText(str(int(self.le.text()) - 1))
-        self.fo = utils.setFo('Stats', self.name) 
-        self.fo.write(self.le.text())
 
     def rollDice(self):
-         
         result = random.randint(1, 20)
         modifiedResult = result + math.ceil((int(self.le.text()) - 11) / 2)
         output =  'Roll Result: ' + str(result) + '\n'
@@ -60,17 +57,17 @@ class CharacterStat(QWidget):
 class StatsBlock(QWidget):
     #variables here get shared with all instances, aka a bad idea
 
-    def __init__(self, fo, parent):
+    def __init__(self, data, parent):
         #variables put here are supposed to be instance only
         super().__init__(parent)
 
         self.parent = parent
-        self.Str = CharacterStat("Strength", fo, self)
-        self.Con = CharacterStat("Constitution", fo, self)
-        self.Dex = CharacterStat("Dexterity", fo, self)
-        self.Wis = CharacterStat("Wisdom", fo, self)
-        self.Int = CharacterStat("Intelligence", fo, self)
-        self.Cha = CharacterStat("Charisma", fo, self)
+        self.Str = CharacterStat(data.stats[0], self)
+        self.Dex = CharacterStat(data.stats[1], self)
+        self.Con = CharacterStat(data.stats[2], self)
+        self.Int = CharacterStat(data.stats[3], self)
+        self.Wis = CharacterStat(data.stats[4], self)
+        self.Cha = CharacterStat(data.stats[5], self)
         
     def move(self, xVal, yVal):
         self.Str.move(xVal, yVal)
