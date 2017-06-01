@@ -14,7 +14,6 @@ class CharacterStat(QWidget):
         super().__init__(parent.parent)
         self.parent = parent     
         self.info = info
-        print('Stat name: ' + self.info[0])
         self.prof = prof
         self.initUI()
     
@@ -59,7 +58,6 @@ class CharacterStat(QWidget):
         QMessageBox.about(self, 'Roll Results', output)
 
     def rollDice(self):
-        print('Should roll ' + self.info[0])
         result = random.randint(1, 20)
         modifiedResult = result + math.ceil((int(self.le.text()) - 11) / 2)
         output =  'Roll Result: ' + str(result) + '\n'
@@ -89,6 +87,13 @@ class StatsBlock(QWidget):
         self.Int = CharacterStat(data.stats[3], data.prof, self)
         self.Wis = CharacterStat(data.stats[4], data.prof, self)
         self.Cha = CharacterStat(data.stats[5], data.prof, self)
+
+        self.move(30, 50)
+
+        self.setGeometry(400, 400, 290, 150)
+        self.size = QSize(1000, 1000)
+        self.resize(self.size)
+        self.show()
         
     def move(self, xVal, yVal):
         self.Str.move(xVal, yVal)

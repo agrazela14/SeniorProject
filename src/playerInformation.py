@@ -5,63 +5,53 @@ import sys
 import random
 import math 
 
-from PyQt5.QtWidgets import (QWidget, QWidgetItem, QDialog, QPushButton, QLineEdit, 
-    QInputDialog, QApplication, QMessageBox, QCheckBox)
+from PyQt5.QtWidgets import *
 
 from PyQt5.QtCore import (QSize)
 
-class CharacterSkill(QWidgetItem):
-    def __init__(self, name, relevantStat, parent):
-        super().__init__(parent)
-        
+class PlayerInfo(QWidget):
+    def __init__(self, name, info, parent):
+        super().__init__(parent.parent)
         self.parent = parent     
-        self.relevantStat = relevantStat
-        self.initUI(name, parent)
-
-    def rollDice(self):
-        result = random.randint(1, 20)
-        modifiedResult = result + math.ceil((int(self.relevantStat.le.text()) - 11) / 2)
-
-        if (self.trainedCheck.isChecked()):
-            modifiedResult += 2
-
-        output =  'Roll Result: ' + str(result) + '\n'
-        output += 'Modified Result: ' + str(modifiedResult)
-        QMessageBox.about(self.parent.parent, 'Roll Results', output)
+        self.name = name
+        self.info = info
+        self.initUI()
     
-    def initUI(self, name, parent):      
+    def initUI(self):      
+        self.title = QLabel(self.name, self.parent)
+        self.le = QLineEdit(self.parent)
+        self.le.setText(str(self.info))
 
-        self.btn = QPushButton(name, parent.parent.parent)
-        self.trainedCheck = QCheckBox('trained', parent.parent.parent)
-        self.btn.clicked.connect(self.rollDice)
+    def move(self, xVal, yVal):
+        self.title.move(xVal, yVal)
+        self.le.move(xVal + 150, yVal)
 
-        #self.trainedCheck.setMaximumSize(40, 40)
-        
-        
-    def move(self, btnx, btny):
-        self.btn.move(btnx, btny)
-        self.trainedCheck.move(btnx + 150, btny)
-
-#Parent here should be charactersheet
-class SkillsBlock(QWidgetItem):
+#parent is the charactersheet
+class PlayerInformation(QWidget):
     #variables here get shared with all instances, aka a bad idea
 
-    def __init__(self, parent):
+    def __init__(self, data, parent):
         #variables put here are supposed to be instance only
         super().__init__(parent)
 
         self.parent = parent
-        self.SkillList = [
-            CharacterSkill("Acrobatics (Dex)", parent.Stats.Dex, self),
-            CharacterSkill("Handle Animal (Wis)", parent.Stats.Wis, self),
-            CharacterSkill("Arcana (Int)", parent.Stats.Int, self),
-            CharacterSkill("Athletics (Str)", parent.Stats.Str, self),
-            CharacterSkill("Deception (Cha)", parent.Stats.Cha, self),
-            CharacterSkill("History (Int)", parent.Stats.Int, self),
-        ]
+        self.player = PlayerInfo('Player Name', data.playerName, self)
+        self.character = PlayerInfo('Character Name', data.characterName, self)
+        self.characterClass = PlayerInfo('Class', data.characterClass, self)
+        self.level = PlayerInfo('Level', data.level, self)
+        self.exp = PlayerInfo('Experience', data.exp, self)
+        self.align = PlayerInfo('Alignment', data.alignment, self)
+
+        self.setGeometry(400, 400, 290, 150)
+        self.size = QSize(1000, 1000)
+        self.resize(self.size)
+        self.show()
         
     def move(self, xVal, yVal):
-        inc = 0
-        for skill in self.SkillList: 
-            skill.move(xVal, yVal + inc)
-            inc += 30
+        self.player.move(xVal, yVal)
+        self.character.move(xVal, yVal + 30)
+        self.characterClass.move(xVal, yVal + 60)
+        self.level.move(xVal, yVal + 90)
+        self.exp.move(xVal, yVal + 120)
+        self.align.move(xVal, yVal + 150)
+

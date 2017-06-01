@@ -21,7 +21,6 @@ class CharacterSkill(QWidget):
         self.initUI()
 
     def initUI(self):      
-        print('Skill name: ' + self.info[0])
         self.btn = QPushButton(self.info[0], self.parent)
         self.trainedCheck = QCheckBox('trained', self.parent)
 

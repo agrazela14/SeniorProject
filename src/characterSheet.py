@@ -8,6 +8,7 @@ import math
 from characterStats import *
 from characterSkills import *
 from characterItems import *
+from playerInformation import *
 
 from PyQt5.QtWidgets import (QWidget, QWidgetItem, QDialog, QPushButton, QLineEdit, 
     QInputDialog, QApplication, QMessageBox)
@@ -36,7 +37,7 @@ class CharacterData():
         self.characterClass = "Commoner"
         self.level = 1 
         self.exp = 0
-        self.Alignment = "N"
+        self.alignment = "N"
         
         #Actually just do a list of "statInfo"s that can be indexed into in each charStat
         self.stats = [
@@ -63,7 +64,7 @@ class CharacterData():
             #characterSkills.skillInfo("Deception", 5, False),
             #characterSkills.skillInfo("History", 3, False),
             #characterSkills.skillInfo("Insight", 4, False),
-            ##characterSkills.skillInfo("Intimidation", 5, False),
+            #characterSkills.skillInfo("Intimidation", 5, False),
             #characterSkills.skillInfo("Investigation", 3, False),
             #characterSkills.skillInfo("Medicine", 4, False),
             #characterSkills.skillInfo("Nature", 3, False),
@@ -153,42 +154,36 @@ class CharacterSheet(QWidget):
         self.initUI()
         
     def initUI(self):      
+        #Make Tabs so that stuff works
+        #Player Info, Stats, Skills, items, feats, spells
         self.size = QSize(1000, 1000)
         self.resize(self.size)
         self.setWindowTitle(self.name)
 
-        self.Stats = StatsBlock(self.data, self)
+        self.tabs = QTabWidget(self)
+        self.tabs.resize(1000, 1000)
+        self.tabs.setMovable(True)
+        self.tabs.setMinimumSize(150, 20)
+
+        self.PlayerInfo = PlayerInformation(self.data, self.tabs)
+        self.PlayerInfo.move(30, 50)
+        self.tabs.addTab(self.PlayerInfo, 'Info')
+
+        self.Stats = StatsBlock(self.data, self.tabs)
         self.Stats.move(30, 50) 
+        self.tabs.addTab(self.Stats, "Stats")
 
-        #self.Str = CharacterStat(self.data.stats[0], self.data.prof, self)
-        #self.Str.move(30, 50)
-        #self.Dex = CharacterStat(self.data.stats[1], self.data.prof, self)
-        #self.Dex.move(30, 80)
-        #self.Con = CharacterStat(self.data.stats[2], self.data.prof, self)
-        #self.Con.move(30, 110)
-        #self.Int = CharacterStat(self.data.stats[3], self.data.prof, self)
-        #self.Int.move(30, 140)
-        #self.Wis = CharacterStat(self.data.stats[4], self.data.prof, self)
-        #self.Wis.move(30, 170)
-        #self.Cha = CharacterStat(self.data.stats[5], self.data.prof, self)
-        #self.Cha.move(30, 200)
+        self.Skills = SkillsBlock(self.data, self.tabs)
+        self.Skills.move(30, 50)
+        self.tabs.addTab(self.Skills, "Skills")
 
-        #self.Stats = QBoxLayout(QBoxLayout.TopToBottom, self)
-        #self.Stats.setGeometry(QRect(30, 50, 500, 250))
-        #self.Stats.addWidget(CharacterStat(self.data.stats[0], self.data.prof, self))
-        #self.Stats.addWidget(CharacterStat(self.data.stats[1], self.data.prof, self))
-        #self.Stats.addWidget(CharacterStat(self.data.stats[2], self.data.prof, self))
-        #self.Stats.addWidget(CharacterStat(self.data.stats[3], self.data.prof, self))
-        #self.Stats.addWidget(CharacterStat(self.data.stats[4], self.data.prof, self))
-        #self.Stats.addWidget(CharacterStat(self.data.stats[5], self.data.prof, self))
-
-
-        self.Skills = SkillsBlock(self.data, self)
-        self.Skills.move(30, 275)
 
         self.Items = ItemsBlock(self.data, self)
-        self.Items.move(600, 50)
-        self.show()
+        self.Items.move(30, 50)
+        self.tabs.addTab(self.Items, "Items")
+        #self.setGeometry(300, 250, 250, 150)
+        #self.show()
+        #self.tabs.show()
          
 
     #Needs an on close function for pickling the data file

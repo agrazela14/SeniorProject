@@ -73,7 +73,7 @@ class ItemsBlock(QWidget):
         newItem = ["Blank", 0, 1]
         self.data.items.append(newItem) 
         self.itemList.append(CharacterItem(newItem, self))
-        self.move(600, 50)
+        self.move(30, 50)
 
     def move(self, xVal, yVal):
         inc = 30

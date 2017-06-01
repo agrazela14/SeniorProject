@@ -40,13 +40,13 @@ class sheetAid(QWidget):
         print(fileName)
         fo = open(fileName[0], "w+") 
         sheet = CharacterSheet(name, fo, False, self.tabs)
-        #self.tabs.addTab(sheet, name)
+        self.tabs.addTab(sheet, name)
          
     def addNewSheet(self, name):
         #make a new characterData and pickle.dump in the end to save it
         fo = open("../characters/" + name[0], "w+")
         sheet = CharacterSheet(name, fo, True, self.tabs)
-        #self.tabs.addTab(sheet, name)
+        self.tabs.addTab(sheet, name)
 
 if __name__ == '__main__':
     
