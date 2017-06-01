@@ -14,12 +14,14 @@ class CharacterStat(QWidget):
         super().__init__(parent.parent)
         self.parent = parent     
         self.info = info
-        print('Stat name: ' + self.info[0])
         self.prof = prof
+        self.Box = QWidget(self)
+        self.layout = QHBoxLayout()
         self.initUI()
     
     def initUI(self):      
 
+        self.layout.addStretch(1)
         self.btn = QPushButton(self.info[0], self.parent)
         self.btn.clicked.connect(self.rollDice)
 
@@ -40,6 +42,15 @@ class CharacterStat(QWidget):
         self.saveCheck = QCheckBox(self.info[0] + " save", self.parent)
         if (self.info[2]):
             self.saveCheck.setChecked()
+
+        self.layout.addWidget(self.btn)
+        self.layout.addWidget(self.le)
+        self.layout.addWidget(self.Inc)
+        self.layout.addWidget(self.Dec)
+        self.layout.addWidget(self.saveCheck)
+        self.layout.addWidget(self.save)
+
+        self.Box.show()
         
     def Increment(self):
         self.le.setText(str(int(self.le.text()) + 1))
@@ -83,12 +94,27 @@ class StatsBlock(QWidget):
         super().__init__(parent)
 
         self.parent = parent
+        self.Box = QWidget(self)
+        self.layout = QVBoxLayout(self)
+
+        self.layout.addStretch(1)
+
         self.Str = CharacterStat(data.stats[0], data.prof, self)
         self.Dex = CharacterStat(data.stats[1], data.prof, self)
         self.Con = CharacterStat(data.stats[2], data.prof, self)
         self.Int = CharacterStat(data.stats[3], data.prof, self)
         self.Wis = CharacterStat(data.stats[4], data.prof, self)
         self.Cha = CharacterStat(data.stats[5], data.prof, self)
+
+        self.layout.addWidget(self.Str)
+        self.layout.addWidget(self.Dex)
+        self.layout.addWidget(self.Con)
+        self.layout.addWidget(self.Int)
+        self.layout.addWidget(self.Wis)
+        self.layout.addWidget(self.Cha)
+
+        self.Box.setLayout(self.layout)
+        self.Box.show()
         
     def move(self, xVal, yVal):
         self.Str.move(xVal, yVal)

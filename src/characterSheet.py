@@ -158,7 +158,7 @@ class CharacterSheet(QWidget):
         self.setWindowTitle(self.name)
 
         self.Stats = StatsBlock(self.data, self)
-        self.Stats.move(30, 50) 
+        #self.Stats.move(30, 50) 
 
         #self.Str = CharacterStat(self.data.stats[0], self.data.prof, self)
         #self.Str.move(30, 50)
