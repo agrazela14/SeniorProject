@@ -7,26 +7,27 @@ import math
 
 from characterStats import *
 from characterSkills import *
+from characterItems import *
 
 from PyQt5.QtWidgets import (QWidget, QWidgetItem, QDialog, QPushButton, QLineEdit, 
     QInputDialog, QApplication, QMessageBox)
 
-from PyQt5.QtCore import (QSize)
+from PyQt5.QtCore import *
 
 class Attack():
     def __init__(self, name, light, diceNum, diceSides, reach, prof):
-        this.name = name 
-        this.light = light 
-        this.diceNum = diceNum 
-        this.diceSides = diceSides 
-        this.reach = reach 
-        this.prof = prof 
+        self.name = name 
+        self.light = light 
+        self.diceNum = diceNum 
+        self.diceSides = diceSides 
+        self.reach = reach 
+        self.prof = prof 
 
 class Item():
     def __init__(self, name, quantity, wt):
-        this.name = name
-        this.quantity = quantity 
-        this.wt = wt
+        self.name = name
+        self.quantity = quantity 
+        self.wt = wt
 
 class CharacterData():
     def __init__(self):
@@ -111,21 +112,21 @@ class CharacterData():
         self.curHp = 0
         self.maxHp = 0
         self.tempHp = 0
-        self.proficiency = 0
+        self.prof = 1
         self.ac = 10
         self.initiative = 0
         self.moveSpeed = 30
 
-        self.Attacks = [Attack("unarmed", True, 1, 4, 0, True]
-        self.1stLevelSlots = 0
-        self.2ndLevelSlots = 0
-        self.3rdLevelSlots = 0
-        self.4thLevelSlots = 0
-        self.5thLevelSlots = 0
-        self.6thLevelSlots = 0
-        self.7thLevelSlots = 0
-        self.8thLevelSlots = 0
-        self.9thLevelSlots = 0
+        self.Attacks = [Attack("unarmed", True, 1, 4, 0, True)]
+        self.firstLevelSlots = 0
+        self.secondLevelSlots = 0
+        self.thirdLevelSlots = 0
+        self.fourthLevelSlots = 0
+        self.fifthLevelSlots = 0
+        self.sixthLevelSlots = 0
+        self.seventhLevelSlots = 0
+        self.eighthLevelSlots = 0
+        self.ninthLevelSlots = 0
         
         self.spells = ["blank"]
 
@@ -133,7 +134,7 @@ class CharacterData():
         self.gold = 0
         self.silver = 0
         self.copper = 0
-        self.items = ["Commoner's Clothes", 1, 3] 
+        self.items = [["Commoner's Clothes", 3, 1]] 
 
 
 class CharacterSheet(QWidget):
@@ -143,22 +144,51 @@ class CharacterSheet(QWidget):
         self.parent = parent
         self.fo = fo
         self.name = name
-        self.initUI()
 
         if new:
-            self.data = characterData()
+            self.data = CharacterData()
 
         else:
             self.data = pickle.load(fo)
+        self.initUI()
         
     def initUI(self):      
+        self.size = QSize(1000, 1000)
+        self.resize(self.size)
+        self.setWindowTitle(self.name)
+
         self.Stats = StatsBlock(self.data, self)
         self.Stats.move(30, 50) 
 
+        #self.Str = CharacterStat(self.data.stats[0], self.data.prof, self)
+        #self.Str.move(30, 50)
+        #self.Dex = CharacterStat(self.data.stats[1], self.data.prof, self)
+        #self.Dex.move(30, 80)
+        #self.Con = CharacterStat(self.data.stats[2], self.data.prof, self)
+        #self.Con.move(30, 110)
+        #self.Int = CharacterStat(self.data.stats[3], self.data.prof, self)
+        #self.Int.move(30, 140)
+        #self.Wis = CharacterStat(self.data.stats[4], self.data.prof, self)
+        #self.Wis.move(30, 170)
+        #self.Cha = CharacterStat(self.data.stats[5], self.data.prof, self)
+        #self.Cha.move(30, 200)
+
+        #self.Stats = QBoxLayout(QBoxLayout.TopToBottom, self)
+        #self.Stats.setGeometry(QRect(30, 50, 500, 250))
+        #self.Stats.addWidget(CharacterStat(self.data.stats[0], self.data.prof, self))
+        #self.Stats.addWidget(CharacterStat(self.data.stats[1], self.data.prof, self))
+        #self.Stats.addWidget(CharacterStat(self.data.stats[2], self.data.prof, self))
+        #self.Stats.addWidget(CharacterStat(self.data.stats[3], self.data.prof, self))
+        #self.Stats.addWidget(CharacterStat(self.data.stats[4], self.data.prof, self))
+        #self.Stats.addWidget(CharacterStat(self.data.stats[5], self.data.prof, self))
+
+
         self.Skills = SkillsBlock(self.data, self)
         self.Skills.move(30, 275)
-         
-        self.size = QSize(1000, 1000)
-        self.resize(self.size)
-        self.setWindowTitle('Input dialog')
+
+        self.Items = ItemsBlock(self.data, self)
+        self.Items.move(600, 50)
         self.show()
+         
+
+    #Needs an on close function for pickling the data file

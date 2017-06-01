@@ -22,10 +22,11 @@ class sheetAid(QWidget):
         
     def initUI(self):      
         #Documentation says no parents for tab objects
-        self.baseTab = baseTab(self)
-        self.ndx = 1
         self.tabs = QTabWidget(self)
+        self.baseTab = baseTab(self, self.tabs)
+        self.ndx = 1
         self.tabs.insertTab(0, self.baseTab, "Add Sheets")
+        self.tabs.resize(3000, 3000)
         self.size = QSize(1000, 1000)
         self.resize(self.size)
         self.setWindowTitle('DnD 5e character sheet aid')
@@ -38,14 +39,14 @@ class sheetAid(QWidget):
         fileName = QFileDialog.getOpenFileName(self, 'Open Sheet', '../characters')
         print(fileName)
         fo = open(fileName[0], "w+") 
-        sheet = characterSheet(name, fo, False, self)
-        self.tabs.addTab(sheet, 0, name)
+        sheet = CharacterSheet(name, fo, False, self.tabs)
+        #self.tabs.addTab(sheet, name)
          
     def addNewSheet(self, name):
         #make a new characterData and pickle.dump in the end to save it
         fo = open("../characters/" + name[0], "w+")
-        sheet = characterSheet(name, fo, True, self)
-        self.tabs.addTab(sheet, 0, name)
+        sheet = CharacterSheet(name, fo, True, self.tabs)
+        #self.tabs.addTab(sheet, name)
 
 if __name__ == '__main__':
     
