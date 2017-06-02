@@ -4,12 +4,15 @@
 import sys
 import random
 import math 
+import pickle
 
 from characterStats import *
 from characterSkills import *
 from characterItems import *
 from characterMoney import *
+from characterFeats import *
 from playerInformation import *
+from characterInformation import *
 
 from PyQt5.QtWidgets import (QWidget, QWidgetItem, QDialog, QPushButton, QLineEdit, 
     QInputDialog, QApplication, QMessageBox)
@@ -78,7 +81,7 @@ class CharacterData():
         ]
         
         #Character Feats/Features
-        self.feats = ['']
+        self.feats = [['Feat Name', 'Feat Description']]
 
         #Character Information
         self.curHp = 0
@@ -136,12 +139,12 @@ class CharacterSheet(QWidget):
     def initUI(self):      
         #Make Tabs so that stuff works
         #Player Info, Stats, Skills, items, feats, spells
-        self.size = QSize(1000, 1000)
+        self.size = QSize(600, 700)
         self.resize(self.size)
         self.setWindowTitle(self.name)
 
         self.tabs = QTabWidget(self)
-        self.tabs.resize(1000, 1000)
+        self.tabs.resize(600, 700)
         self.tabs.setMovable(True)
         self.tabs.setMinimumSize(150, 20)
 
@@ -149,9 +152,9 @@ class CharacterSheet(QWidget):
         self.PlayerInfo.move(30, 50)
         self.tabs.addTab(self.PlayerInfo, 'Info')
 
-        self.CharacterInfo = CharacterInformation(self.data, self.tabs)
-        self.CharacterInfo.move(30, 50)
-        self.tabs.addTab(self.CharacterInfo, 'Vitals')
+        #self.charInfo = CharacterInformation(self.data, self.tabs)
+        #self.charInfo.move(30, 50)
+        #self.tabs.addTab(self.charInfo, 'Vitals')
 
         self.Stats = StatsBlock(self.data, self.tabs)
         self.Stats.move(30, 50) 
@@ -161,8 +164,11 @@ class CharacterSheet(QWidget):
         self.Skills.move(30, 50)
         self.tabs.addTab(self.Skills, "Skills")
 
+        self.Feats = FeatsBlock(self.data, self)
+        self.tabs.addTab(self.Feats, "Feat/ures")
+
         self.Items = ItemsBlock(self.data, self)
-        self.Items.move(30, 50)
+        #self.Items.move(30, 50)
         self.tabs.addTab(self.Items, "Items")
 
         self.Money = MoneyBlock(self.data, self)
@@ -175,7 +181,8 @@ class CharacterSheet(QWidget):
 
     #Needs an on close function for pickling the data file
 
-    def closeEvent(self, event):
-        pickle(self.data, self.fo)
-        event.accept()
+    def writeData(self):
+        print('Close Event Triggered for: ' + self.name)
+        print('Highest Protocol: ' + str(pickle.HIGHEST_PROTOCOL))
+        pickle.dump(self.data, self.fo, 3)
 

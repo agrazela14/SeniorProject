@@ -41,7 +41,7 @@ class CharacterSkill(QWidget):
         
     def move(self, btnx, btny):
         self.btn.move(btnx, btny)
-        self.trainedCheck.move(btnx + 150, btny)
+        self.trainedCheck.move(btnx + 170, btny)
 
 #Parent here should be charactersheet
 class SkillsBlock(QWidget):

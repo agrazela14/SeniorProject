@@ -13,11 +13,11 @@ from PyQt5.QtWidgets import * #(QWidget, QWidgetItem, QDialog, QPushButton, QLin
 from PyQt5.QtCore import (QSize)
 
 class baseTab(QWidget):
-    def __init__(self, aid, parent):
+    def __init__(self, mainWindow, parent):
         super().__init__()
         
         self.parent = parent
-        self.aid = aid
+        self.mainWindow = mainWindow
         self.initUI()
         
     def initUI(self):      
@@ -38,10 +38,10 @@ class baseTab(QWidget):
         
     def newSheet(self):
         charName = QInputDialog.getText(self.parent, "new sheet", 'new character name')
-        self.aid.addNewSheet(charName[0])
+        self.mainWindow.addNewSheet(charName[0])
 
     def openSheet(self):
-        self.parent.openSheet()
+        self.mainWindow.openSheet()
         #openDialog = QFileDialog(self.parent, 'new file', '../characters', '') 
 
 

@@ -88,8 +88,6 @@ class StatsBlock(QWidget):
         self.Wis = CharacterStat(data.stats[4], data.prof, self)
         self.Cha = CharacterStat(data.stats[5], data.prof, self)
 
-        self.move(30, 50)
-
         self.setGeometry(400, 400, 290, 150)
         self.size = QSize(1000, 1000)
         self.resize(self.size)

@@ -41,8 +41,8 @@ class Money(QWidget):
     def move(self, xVal, yVal):
         self.title.move(xVal, yVal)
         self.le.move(xVal + 150, yVal)
-        self.Inc.move(xVal + 200, yVal)
-        self.Dec.move(xVal + 240, yVal)
+        self.Inc.move(xVal + 300, yVal)
+        self.Dec.move(xVal + 340, yVal)
 
 #parent is the charactersheet
 class MoneyBlock(QWidget):
@@ -59,8 +59,6 @@ class MoneyBlock(QWidget):
         self.cp = Money('Copper Pieces (CP)', data.copper, self)
 
         self.setGeometry(400, 400, 290, 150)
-        self.size = QSize(1000, 1000)
-        self.resize(self.size)
         self.show()
         
     def move(self, xVal, yVal):

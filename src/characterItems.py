@@ -12,6 +12,7 @@ class CharacterItem(QWidget):
         super().__init__(parent.parent)
         self.parent = parent     
         self.info = info
+        self.lay = QHBoxLayout()
         self.initUI()
     
     def initUI(self):      
@@ -31,6 +32,15 @@ class CharacterItem(QWidget):
         self.Dec.setMaximumSize(40, 40)
         self.Inc.clicked.connect(self.Increment)
         self.Dec.clicked.connect(self.Decrement)
+        
+        self.lay.addWidget(self.nameBox)
+        self.lay.addWidget(self.wtBox)
+        self.lay.addWidget(self.qtBox)
+        self.lay.addWidget(self.Inc)
+        self.lay.addWidget(self.Dec)
+
+        self.setLayout(self.lay)
+        self.show()
 
     def Increment(self):
         self.qtBox.setText(str(int(self.qtBox.text()) + 1))
@@ -47,6 +57,18 @@ class CharacterItem(QWidget):
         self.Inc.move(btnx + 450, btny)
         self.Dec.move(btnx + 490, btny)
 
+class header(QWidget):
+    def __init__(self, parent):
+        super().__init__(parent.parent)
+        self.header = QHBoxLayout()
+        self.header.addWidget(QLabel("Item Name", self)) 
+        self.header.addWidget(QLabel("Weight", self)) 
+        self.header.addWidget(QLabel("Quantity", self)) 
+
+        self.setLayout(self.header)
+        self.show()
+        
+
 #parent is the charactersheet
 class ItemsBlock(QWidget):
     #variables here get shared with all instances, aka a bad idea
@@ -57,27 +79,40 @@ class ItemsBlock(QWidget):
 
         self.parent = parent
         self.data = data
+        self.lay = QVBoxLayout()
         self.itemList = []
-        for info in self.data.items:
-            self.fillItem(info)
 
         self.addBtn = QPushButton("+", self)
         self.addBtn.clicked.connect(self.addItem)
 
+        self.lay.addWidget(self.addBtn)
+        self.lay.addWidget(header(self))
+
+        for info in self.data.items:
+            self.fillItem(info)
+
+        self.lay.setSpacing(1)
+        self.setLayout(self.lay)
+        self.show()
+
+
     #used to build the list of existing Items  
     def fillItem(self, itemData):
-        self.itemList.append(CharacterItem(itemData, self))
+        #self.itemList.append(CharacterItem(itemData, self))
+        self.lay.addWidget(CharacterItem(itemData, self))
     
     #used to add a new Item
     def addItem(self):
         newItem = ["Blank", 0, 1]
-        self.data.items.append(newItem) 
-        self.itemList.append(CharacterItem(newItem, self))
-        self.move(30, 50)
+        self.lay.addWidget(CharacterItem(newItem, self))
+        #self.data.items.append(newItem) 
+        #self.itemList.append(CharacterItem(newItem, self))
 
     def move(self, xVal, yVal):
+        self.lay.move(xVal, yVal)
         inc = 30
         self.addBtn.move(xVal, yVal)
-        for item in self.itemList:
+        for item in self.lay:
+            print('Item: ' + item.info[0]) 
             item.move(xVal, yVal + inc)
             inc += 30
