@@ -41,6 +41,10 @@ class PlayerInformation(QWidget):
         self.level = PlayerInfo('Level', data.level, self)
         self.exp = PlayerInfo('Experience', data.exp, self)
         self.align = PlayerInfo('Alignment', data.alignment, self)
+        self.background = PlayerInfo('Background', data.background, self)
+        self.ideal = PlayerInfo('Ideal', data.ideal, self)
+        self.bond = PlayerInfo('Bond', data.bond, self)
+        self.flaw = PlayerInfo('Flaw', data.flaw, self)
 
         self.setGeometry(400, 400, 290, 150)
         self.size = QSize(1000, 1000)
@@ -54,4 +58,8 @@ class PlayerInformation(QWidget):
         self.level.move(xVal, yVal + 90)
         self.exp.move(xVal, yVal + 120)
         self.align.move(xVal, yVal + 150)
+        self.background.move(xVal, yVal + 180)
+        self.ideal.move(xVal, yVal + 210)
+        self.bond.move(xVal, yVal + 240)
+        self.flaw.move(xVal, yVal + 270)
 
